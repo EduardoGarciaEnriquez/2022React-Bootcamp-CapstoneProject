@@ -5,10 +5,10 @@ import '../../stylesheets/homepage/content.scss';
 function Products({ProductsData}) {
     return (
         <div className='products-container'>
-            {ProductsData.results.map((product) =>
+            {ProductsData.map((product) =>
                 <div key={product.id} className='product'>
                     <img alt="product-img" src={product.data.mainimage.url} />
-                    <div className="top-left">{product.tags[1]}</div>
+                    <div className="top-left">{product.data.category.slug}</div>
                     <div className="top-right">
                         <b>${product.data.price}</b>
                     </div>
