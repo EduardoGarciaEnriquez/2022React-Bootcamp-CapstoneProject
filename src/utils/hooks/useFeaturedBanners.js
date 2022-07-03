@@ -5,21 +5,21 @@ import { useLatestAPI } from './useLatestAPI';
 export function useFeaturedBanners() {
   const { ref: apiRef, isLoading: isApiMetadataLoading } = useLatestAPI();
   const [featuredBanners, setFeaturedBanners] = useState(() => ({
-    data: {},
-    isLoading: true,
+    banners: {},
+    fetchingBanners: true,
   }));
 
   useEffect(() => {
     if (!apiRef || isApiMetadataLoading) {
-      return () => {};
+      return () => { };
     }
 
     const controller = new AbortController();
 
     async function getFeaturedBanners() {
       try {
-        setFeaturedBanners({ data: {}, isLoading: true });
-
+        setFeaturedBanners({ banners: {}, fetchingBanners: true });
+        let banners = [];
         const response = await fetch(
           `${API_BASE_URL}/documents/search?ref=${apiRef}&q=${encodeURIComponent(
             '[[at(document.type, "banner")]]'
@@ -28,11 +28,16 @@ export function useFeaturedBanners() {
             signal: controller.signal,
           }
         );
-        const data = await response.json();
+        if (response.status === 200) {
+          banners = await response.json();
+        }
+        else {
+          console.log('Banners response: ',response);
+        }
 
-        setFeaturedBanners({ data, isLoading: false });
+        setFeaturedBanners({ banners, fetchingBanners: false, error: false });
       } catch (err) {
-        setFeaturedBanners({ data: {}, isLoading: false });
+        setFeaturedBanners({ banners: {}, fetchingBanners: false, error: true });
         console.error(err);
       }
     }
