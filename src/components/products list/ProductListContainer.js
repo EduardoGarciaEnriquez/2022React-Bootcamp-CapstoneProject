@@ -1,30 +1,52 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react'
+import { useLocation } from 'react-router-dom'
+
 import { GiHamburgerMenu } from 'react-icons/gi';
+
 import SidebarContainer from '../sidebar/SidebarContainer'
 import Products from '../homepage/Products';
-import ProductsData from '../../mocks/en-us/products.json';
-
+import Pagination from './Pagination/PaginationContainer';
+import stateContext from '../../state/stateContext.js'
 import './ProductsList.scss'
 
 function ProductListContainer() {
+    //context
+    const { products, fetchingProducts } = useContext(stateContext)
+    var size = Object.keys(products).length;
+
+    //local state
     const [isVisible, setIsVisible] = useState(false)
-    const [productsList, setProductsList] = useState(ProductsData.results)
+    const [productsList, setProductsList] = useState([])
     const [categoriesList, setCategoriesList] = useState([])
+
+    //pagination
+    const [page, setPage] = useState(1);
+    const [perPage, setPerPage] = useState(3);
+    const totalPages = Math.ceil(productsList.length / perPage);
+
+    //url params
+    const { search } = useLocation();
+    const searchParams = new URLSearchParams(search);
+    const category = searchParams.get("category");
 
     useEffect(() => {
         if (categoriesList.length > 0) {
-            let products = [];
+            let productsArray = [];
             categoriesList.forEach(element => {
-                products = [...products, ...ProductsData.results.filter(item => {
-                    return item.data.category.id === element
+                productsArray = [...productsArray, ...products.results.filter(item => {
+                    return item.data.category.slug === element
                 })]
             });
 
-            setProductsList(products);
+            setProductsList(productsArray);
         }
-        else { setProductsList(ProductsData.results) }
-    }, [categoriesList])
+        else {
+            if (size !== 0) {
+                setProductsList(products.results)
+            }
+        }
+    }, [categoriesList, size])
+
 
     const showHideSidebar = () => {
         setIsVisible(!isVisible)
@@ -47,29 +69,25 @@ function ProductListContainer() {
         <>
             <div className='products-list-container'>
                 <button onClick={() => setIsVisible(true)}><GiHamburgerMenu /></button>
-                {productsList.length > 0 ?
+                {fetchingProducts === false ?
                     <>
-                        <Products ProductsData={productsList} />
-                        {/* <div className="pagination-container">
-                            <div className="pagination-content">
-                                <button>&laquo;</button>
-                                <button>1</button>
-                                <button className="active">2</button>
-                                <button>3</button>
-                                <button>&raquo;</button>
-                            </div>
-                        </div> */}
-                        <div className="pagination-container">
-                            <ul className="pagination-content">
-                                <li><Link to="/products-list">&laquo;</Link></li>
-                                <li><Link to="/products-list" className='active'>1</Link></li>
-                                <li><Link to="/products-list">2</Link></li>
-                                <li><Link to="/products-list">...</Link></li>
-                                <li><Link to="/products-list">&raquo;</Link></li>
-                            </ul>
-                        </div>
+                        {productsList.length !== 0 ?
+                            <>
+                                <Products products={productsList
+                                    .slice((page - 1) * perPage, (page - 1) * perPage + perPage)} />
+
+                                <Pagination
+                                    page={page}
+                                    setPage={setPage}
+                                    totalPages={totalPages} />
+                            </>
+                            :
+                            <h3>Nothing to show. Try adding more filters</h3>
+                        }
                     </> :
-                    <h3>Nothing to show. Try adding more filters</h3>
+                    <div>
+                        Loading products...
+                    </div>
                 }
             </div>
             <SidebarContainer isVisible={isVisible} showHideSidebar={showHideSidebar}
