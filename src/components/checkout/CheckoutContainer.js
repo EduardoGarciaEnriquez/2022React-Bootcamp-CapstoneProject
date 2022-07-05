@@ -11,13 +11,12 @@ import './Checkout.scss'
 const schema = yup.object().shape({
     name: yup.string().required("Name is required"),
     email: yup.string().email().required("E-mail is required"),
-    zip: yup.number().positive().integer().min(10000).max(90000).
-        required("zip/postal code is required."),
+    zip: yup.number().positive().integer().min(10000).max(90000).required("zip/postal code is required."),
     notes: yup.string(),
 });
 
 function CheckoutContainer() {
-    const { cartItems, setCartItems } = useContext(stateContext);
+    const { cartItems } = useContext(stateContext);
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
@@ -68,8 +67,8 @@ function CheckoutContainer() {
                                     <td>{item.data.name}</td>
                                     <td>{item.quantity}</td>
                                     <td>
-                                        {item.data.price} x {item.quantity} =
-                                        {item.data.price * item.quantity}
+                                        ${item.data.price}.00 x {item.quantity} =
+                                        ${item.data.price * item.quantity}.00
                                     </td>
                                 </tr>
                             )}

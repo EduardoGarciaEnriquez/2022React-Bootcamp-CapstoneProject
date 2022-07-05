@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useLocation } from 'react-router-dom'
 
 import { GiHamburgerMenu } from 'react-icons/gi';
 
@@ -24,11 +23,6 @@ function ProductListContainer() {
     const [perPage, setPerPage] = useState(12);
     const totalPages = Math.ceil(productsList.length / perPage);
 
-    //url params
-    const { search } = useLocation();
-    const searchParams = new URLSearchParams(search);
-    const category = searchParams.get("category");
-
     useEffect(() => {
         if (categoriesList.length > 0) {
             let productsArray = [];
@@ -43,9 +37,10 @@ function ProductListContainer() {
         else {
             if (size !== 0) {
                 setProductsList(products.results)
+                setPerPage(12);
             }
         }
-    }, [categoriesList, size])
+    }, [categoriesList, size, products.results])
 
 
     const showHideSidebar = () => {
@@ -61,7 +56,13 @@ function ProductListContainer() {
                 return item !== categoryId
             }))
         } else {
-            setCategoriesList([...categoriesList, categoryId]);
+            if (categoryId) {
+                setCategoriesList([...categoriesList, categoryId]);
+            }
+            else {
+                setCategoriesList([]);
+            }
+
         }
     }
 

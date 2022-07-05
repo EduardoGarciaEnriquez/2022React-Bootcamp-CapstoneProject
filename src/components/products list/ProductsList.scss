@@ -55,6 +55,10 @@
                 background-color: #dbe6c4;
                 border: 1px solid #b2b8ad;
                 color: white;
+
+                &::-webkit-inner-spin-button {
+                    opacity: 1;
+                }
             }
         }
     }

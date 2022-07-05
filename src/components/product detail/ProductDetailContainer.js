@@ -19,18 +19,26 @@ function ProductDetailContainer() {
     useEffect(() => {
         if (size !== 0) {
             product.results[0].data.stock < input ? setIsEnabled(false) : setIsEnabled(true);
-        }
-    }, [input, size])
 
-    const addItem = (product) => {
+            if (cartItems.length !== 0) {
+                var exists = cartItems.find(item => item.id === product.results[0].id);
+                if (exists) {
+                    setInput(
+                        input >= exists.quantity ?
+                            input :
+                            exists.quantity)
+                }
+            }
+        }
+    }, [input, size, product.results, cartItems])
+
+    const addQuantity = (product) => {
         const exists = cartItems.find(item => item.id === product.id);
         if (product.data.stock >= input) {
             if (exists) {
                 setCartItems(cartItems.map(item => item.id === product.id ?
                     {
-                        ...exists, quantity:
-                            (exists.data.stock > exists.quantity ?
-                                (exists.quantity + input) : exists.quantity),
+                        ...exists, quantity: input,
                     }
                     : item)
                 )
@@ -43,8 +51,7 @@ function ProductDetailContainer() {
 
     const handleOnChange = (e) => {
         let inputValue = parseInt(e.target.value);
-
-        if (inputValue !== '' || inputValue > 1 || inputValue <= product.results[0].data.stock) {
+        if (inputValue || inputValue > 1 || inputValue <= product.results[0].data.stock) {
             setInput(inputValue);
         } else {
             setIsEnabled(false)
@@ -77,9 +84,10 @@ function ProductDetailContainer() {
                             name="units"
                             value={input}
                             onChange={(e) => handleOnChange(e)} />
+                        <span><b>/ {product.results[0].data.stock} </b> </span>
                         <button
                             className={isEnabled ? 'enabled' : 'disabled'}
-                            onClick={() => addItem(product.results[0], input)}>
+                            onClick={() => addQuantity(product.results[0], input)}>
                             add to cart
                         </button>
                     </div>

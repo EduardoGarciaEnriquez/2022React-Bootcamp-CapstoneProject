@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import { useSearchProduct } from '../../utils/hooks/useSearchProduct';
@@ -8,7 +8,9 @@ import stateContext from '../../state/stateContext'
 import './SearchResults.scss';
 
 function SearchResultsContainer() {
+    //context
     const { cartItems, setCartItems } = useContext(stateContext);
+
     //local state
     const [productsList, setProductsList] = useState([])
 
@@ -17,26 +19,23 @@ function SearchResultsContainer() {
     const searchParams = new URLSearchParams(search);
     const searchTerm = searchParams.get("q");
 
-    var { searchProduct, fetchingSearchProduct } = useSearchProduct(searchTerm);
+    const { searchProduct, fetchingSearchProduct } = useSearchProduct(searchTerm);
 
     var size = Object.keys(searchProduct).length;
 
     //pagination
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(3);
+    const [perPage, setPerPage] = useState(12);
     const totalPages = Math.ceil(productsList.length / perPage);
 
-    const [value, setValue] = useState(search)
+    const value = search;
 
     useEffect(() => {
         if (size !== 0) {
+            setPerPage(12);
             setProductsList(searchProduct.results)
         }
-        if (value !== search) {
-            window.location.reload(false); //change
-        }
-
-    }, [size, search])
+    }, [size, search, value, searchProduct.results])
 
     const addItem = (product) => {
         const exists = cartItems.find(item => item.id === product.id);

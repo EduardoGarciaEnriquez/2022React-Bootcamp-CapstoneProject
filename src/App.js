@@ -26,6 +26,7 @@ function App() {
   const { categories, fetchingCategories } = useFeaturedCategories();
   const { products, fetchingProducts } = useFeaturedProducts();
   const [cartItems, setCartItems] = useState([]);
+
   return (
     <Router>
       <stateContext.Provider
