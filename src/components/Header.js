@@ -1,7 +1,10 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { BiShoppingBag, BiSearchAlt } from 'react-icons/bi'
+
+import { BiSearchAlt } from 'react-icons/bi'
+import Icon from './cart/Icon'
 import sofa_logo from '../assets/main logo/home&beyond.png'
+
 
 import '../stylesheets/homepage/header.scss';
 
@@ -9,8 +12,7 @@ function Header() {
     let navigate = useNavigate();
 
     const handleOnClick = () => {
-        var inputValue = document.getElementById("search").value
-        // console.log(inputValue);
+        var inputValue = document.getElementById("search").value;
         navigate("/search?q=" + inputValue);
     }
     
@@ -29,7 +31,7 @@ function Header() {
             </div>
             <div className="cart-container">
                 <Link to="/cart">
-                    <BiShoppingBag className='icon' />
+                    <Icon />
                 </Link>
             </div>
         </header>
