@@ -21,7 +21,7 @@ function ProductListContainer() {
 
     //pagination
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(12);
+    const [perPage, setPerPage] = useState(3);
     const totalPages = Math.ceil(productsList.length / perPage);
 
     //url params

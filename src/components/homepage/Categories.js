@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import stateContext from '../../state/stateContext';
 import '../../stylesheets/homepage/content.scss';
-import Loader from '../loader/Loader';
 
 function Categories() {
     const { categories, fetchingCategories } = useContext(stateContext)
@@ -25,9 +24,7 @@ function Categories() {
                         </Link>
                     )}
                 </div> :
-                <div style={{textAlign:'center'}}>
-                    <Loader />
-                </div>
+                <div className='categories-container'>Loading categories...</div>
             }
         </>
     )

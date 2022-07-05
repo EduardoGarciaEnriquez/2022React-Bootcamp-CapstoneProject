@@ -13,9 +13,10 @@ const stateContext = React.createContext({
     products: [],
     fetchingProducts: false,
 
-    //cart
-    cartItems: [],
-    setCartItems: () => {},
+    //product detail
+    productDetail: [],
+    setProductDetail: () => {},
+    fetchingProduct: false,
 });
 
 export default stateContext;

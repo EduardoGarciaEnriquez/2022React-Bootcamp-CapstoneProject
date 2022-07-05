@@ -67,39 +67,12 @@
 
     .cart-container {
         width: 15%;
-
         float: left;
         text-align: center;
 
-        .icon-container{
-            position: relative;
-            width: 100%;
-            max-width: 50px;
-
-            .icon {
-                font-size: 2rem;
-                color: white;
-            }
-            span{
-                position: absolute;
-                bottom: -5px;
-                right: 2px;
-                background-color: whitesmoke;
-                color: grey;
-                font-weight: bold;
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-            }
-        }
-
-        .icon-container:hover{
-            .icon{
-                color: lightgray;
-            }
-            .span{
-                color: black;
-            }
+        .icon {
+            font-size: 2rem;
+            color: white;
         }
     }
 

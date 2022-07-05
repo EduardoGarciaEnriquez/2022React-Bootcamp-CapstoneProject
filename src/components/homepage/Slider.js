@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react'
-
 import stateContext from '../../state/stateContext';
-import Loader from '../loader/Loader';
+
 import '../../stylesheets/homepage/content.scss';
 
 function Slider() {
   const { banners, fetchingBanners } = useContext(stateContext)
-
+  
   const [slideIndex, setSlideIndex] = useState(1)
 
   useEffect(() => {
@@ -17,7 +16,7 @@ function Slider() {
 
   return (
     <>
-      {(banners.length !== 0 && fetchingBanners === false) ?
+      {(banners.length !== 0 && fetchingBanners === false )?
         <div className='slider-container'>
           {banners.results.map((slide, i) =>
             <div key={slide.id}
@@ -33,8 +32,8 @@ function Slider() {
           >❯</button>
         </div>
         :
-        <div className='slider-container' style={{ textAlign: 'center' }}>
-          <Loader />
+        <div className='slider-container'>
+          Loading...
         </div>
       }
     </>

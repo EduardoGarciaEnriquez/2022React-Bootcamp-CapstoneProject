@@ -23,7 +23,7 @@
         text-shadow: 0px 1px 0px #ced9bf;
         border-radius: $border_radius;
     }
-
+    
     button:hover {
         background: linear-gradient(to bottom, #9ba892 5%, #dbe6c4 100%);
         background-color: #9ba892;
@@ -177,10 +177,6 @@
         min-width: 320px;
         max-width: 400px;
 
-        box-shadow: 0px 0px 25px -5px rgba(0, 0, 0, 0.75);
-        -webkit-box-shadow: 0px 0px 25px -5px rgba(0, 0, 0, 0.75);
-        -moz-box-shadow: 0px 0px 25px -5px rgba(0, 0, 0, 0.75);
-
         img {
             width: 90%;
         }
@@ -206,25 +202,11 @@
             background: rgba(0, 0, 0, 0.5);
             color: #f1f1f1;
             padding: 10px;
-            a{
-                color: white;
-                text-decoration: none;
-            }
-            a:hover{
-                text-decoration: underline;
-            }
         }
-    }
-
-    .product:hover {
-        box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.75);
-        -webkit-box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.75);
-        -moz-box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.75);
-
     }
 }
 
-.btn-container {
+.btn-container{
     margin-top: 20px;
     width: 100%;
     text-align: center;
