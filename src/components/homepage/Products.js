@@ -1,14 +1,26 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom';
-import stateContext from '../../state/stateContext';
+
+import Product from '../product/Product.js'
+import stateContext from '../../state/stateContext'
+
 import '../../stylesheets/homepage/content.scss';
 
 function Products({ products }) {
-    const { setProductDetail } = useContext(stateContext)
+    const { cartItems, setCartItems } = useContext(stateContext);
     var size = Object.keys(products).length;
 
-    const handleOnClick = (product) => {
-        setProductDetail(product);
+    const addItem = (product) => {
+        const exists = cartItems.find(item => item.id === product.id);
+        if (exists) {
+            setCartItems(cartItems.map(item => item.id === product.id ?
+                {...exists, quantity: 
+                    (exists.data.stock > exists.quantity ? (exists.quantity + 1):exists.quantity)} 
+                : item )
+            )
+        }
+        else {
+            setCartItems([...cartItems, { ...product, quantity: 1 }])
+        }
     }
 
     return (
@@ -16,21 +28,10 @@ function Products({ products }) {
             {(size !== 0) &&
                 <div className='products-container'>
                     {products.map((product) =>
-                        <Link
-                            to={'/product/'+product.id}
-                            onClick={() => handleOnClick(product)}
+                        <Product
+                            addItem={() => addItem(product)}
                             key={product.id}
-                            className='product'>
-                            <img alt="product-img" src={product.data.mainimage.url} />
-                            <div className="top-left">{product.data.category.slug}</div>
-                            <div className="top-right">
-                                <b>${product.data.price}</b>
-                            </div>
-                            <div className="content">
-                                <h2>{product.data.name}</h2>
-                                <button>Add to cart</button>
-                            </div>
-                        </Link>
+                            product={product} />
                     )}
                 </div>
             }
