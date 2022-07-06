@@ -6,6 +6,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate,
 } from 'react-router-dom';
 
 import HomepageContainer from './components/homepage/HomepageContainer';
@@ -51,6 +52,8 @@ function App() {
           <Route path='/search' element={<SearchResultsContainer />} />
           <Route path='/cart' element={<CartContainer />} />
           <Route path='/checkout' element={<CheckoutContainer />} />
+          <Route path="*" element={<Navigate to="/" replace />}
+          />
         </Routes>
       </stateContext.Provider>
       <Footer />

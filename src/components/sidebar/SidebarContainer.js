@@ -19,7 +19,6 @@ function SidebarContainer({ isVisible, showHideSidebar, filterProducts }) {
 
     useEffect(() => {
         if (size !== 0) {
-
             if (categoryArray.length === 0) {
                 let array = categories.results;
                 array.forEach(element => {
@@ -32,13 +31,11 @@ function SidebarContainer({ isVisible, showHideSidebar, filterProducts }) {
             else {
                 let array = categoryArray;
                 setCategoryArray(array)
-
-                if (category !== null) {
-                    filterProducts(category)
-                }
             }
         }
-    }, [size, categoryArray, category, categories.results, filterProducts])
+    }, [size, categoryArray, category, categories.results])
+
+
 
     const handleOnClick = (categoryItem) => {
         let array = categoryArray;

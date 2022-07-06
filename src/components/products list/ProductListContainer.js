@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
+import { useLocation } from 'react-router-dom';
 
 import { GiHamburgerMenu } from 'react-icons/gi';
 
@@ -23,6 +24,11 @@ function ProductListContainer() {
     const [perPage, setPerPage] = useState(12);
     const totalPages = Math.ceil(productsList.length / perPage);
 
+     //url params
+     const { search } = useLocation();
+     const searchParams = new URLSearchParams(search);
+     const category = searchParams.get("category");
+
     useEffect(() => {
         if (categoriesList.length > 0) {
             let productsArray = [];
@@ -38,33 +44,55 @@ function ProductListContainer() {
             if (size !== 0) {
                 setProductsList(products.results)
                 setPerPage(12);
+
+                if (category !== null) {
+                    let index = categoriesList.findIndex(item => {
+                        return item === category
+                    })
+                    if (index !== -1) {
+                        setCategoriesList(categoriesList.filter(item => {
+                            return item !== category
+                        }))
+                    } else {
+                        if (category) {
+                            setCategoriesList([...categoriesList, category]);
+                        }
+                        else {
+                            setCategoriesList([]);
+                        }
+                    }
+                }
             }
         }
-    }, [categoriesList, size, products.results])
+    }, [categoriesList, size, products.results, category])
+
+
 
 
     const showHideSidebar = () => {
         setIsVisible(!isVisible)
     }
 
-    const filterProducts = (categoryId) => {
-        let index = categoriesList.findIndex(item => {
-            return item === categoryId
-        })
-        if (index !== -1) {
-            setCategoriesList(categoriesList.filter(item => {
-                return item !== categoryId
-            }))
-        } else {
-            if (categoryId) {
-                setCategoriesList([...categoriesList, categoryId]);
+    const filterProducts = useCallback(categoryId => {
+        if (categoryId !== null) {
+            let index = categoriesList.findIndex(item => {
+                return item === categoryId
+            })
+            if (index !== -1) {
+                setCategoriesList(categoriesList.filter(item => {
+                    return item !== categoryId
+                }))
+            } else {
+                if (categoryId) {
+                    setCategoriesList([...categoriesList, categoryId]);
+                }
+                else {
+                    setCategoriesList([]);
+                }
             }
-            else {
-                setCategoriesList([]);
-            }
-
         }
-    }
+    }, [categoriesList])
+
 
     return (
         <>
