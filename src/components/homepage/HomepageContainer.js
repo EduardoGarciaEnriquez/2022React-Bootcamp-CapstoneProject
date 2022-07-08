@@ -25,7 +25,7 @@ function HomepageContainer() {
                         <Link to="/products"><button>View all proucts</button></Link>
                     </div>
                 </> :
-                <div className='products-container'>
+                <div style={{textAlign:'center', margin:'0 auto'}}>
                     <Loader />
                 </div>
             }

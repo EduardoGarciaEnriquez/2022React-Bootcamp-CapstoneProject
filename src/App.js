@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useFeaturedBanners } from './utils/hooks/useFeaturedBanners';
 import { useFeaturedCategories } from './utils/hooks/useFeaturedCategories';
-import { useFeaturedProducts } from './utils/hooks/useFeaturedProducts'
+import { useFeaturedProducts } from './utils/hooks/useFeaturedProducts';
+import { useAllProducts } from './utils/hooks/useAllProducts';
 import {
   BrowserRouter as Router,
   Routes,
@@ -26,6 +27,8 @@ function App() {
   const { banners, fetchingBanners } = useFeaturedBanners();
   const { categories, fetchingCategories } = useFeaturedCategories();
   const { products, fetchingProducts } = useFeaturedProducts();
+  const { allProducts, fetchingAllProducts } = useAllProducts();
+  console.log(allProducts, fetchingAllProducts);
   const [cartItems, setCartItems] = useState([]);
 
   return (
@@ -38,6 +41,8 @@ function App() {
           fetchingCategories,
           products,
           fetchingProducts,
+          allProducts,
+          fetchingAllProducts,
 
           cartItems,
           setCartItems,

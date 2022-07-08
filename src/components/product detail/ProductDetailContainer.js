@@ -128,7 +128,7 @@ function ProductDetailContainer() {
 
 
                 </> :
-                <div style={{ textAlign: 'center', marginTop: '80px' }}>
+                <div style={{ textAlign: 'center',margin:'0 auto', marginTop: '80px' }}>
                     <Loader />
                 </div>
             }

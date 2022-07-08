@@ -20,22 +20,22 @@ function SearchResultsContainer() {
     const searchTerm = searchParams.get("q");
 
     const { searchProduct, fetchingSearchProduct } = useSearchProduct(searchTerm);
-
+    
     var size = Object.keys(searchProduct).length;
 
     //pagination
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(12);
-    const totalPages = Math.ceil(productsList.length / perPage);
+    const [totalPages, setTotalPages] = useState(1);
 
     const value = search;
 
     useEffect(() => {
         if (size !== 0) {
-            setPerPage(12);
+            setTotalPages(searchProduct.total_pages)
+            setPage(searchProduct.page)
             setProductsList(searchProduct.results)
         }
-    }, [size, search, value, searchProduct.results])
+    }, [size, search, value, searchProduct.results, searchProduct.total_pages, searchProduct.page ])
 
     const addItem = (product) => {
         const exists = cartItems.find(item => item.id === product.id);
@@ -43,9 +43,9 @@ function SearchResultsContainer() {
             setCartItems(cartItems.map(item => item.id === product.id ?
                 {
                     ...exists, quantity:
-                        (exists.data.stock > exists.quantity ? 
+                        (exists.data.stock > exists.quantity ?
                             (exists.quantity + 1)
-                             : exists.quantity),
+                            : exists.quantity),
                 }
                 : item)
             )
@@ -80,10 +80,10 @@ function SearchResultsContainer() {
                                 </div>
                             </div>
                         )}
-                        {productsList.length > 20 && <Pagination
+                        <Pagination
                             page={page}
                             setPage={setPage}
-                            totalPages={totalPages} />}
+                            totalPages={totalPages} />
                     </div> : <>Your search couldn't find any results. Try again.</>}
             </> :
                 <div style={{ textAlign: 'center', marginTop: '80px' }}>
