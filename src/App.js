@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { useFeaturedBanners } from './utils/hooks/useFeaturedBanners';
 import { useFeaturedCategories } from './utils/hooks/useFeaturedCategories';
-import { useFeaturedProducts } from './utils/hooks/useFeaturedProducts'
+import { useFeaturedProducts } from './utils/hooks/useFeaturedProducts';
+import { useAllProducts } from './utils/hooks/useAllProducts';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate,
 } from 'react-router-dom';
 
 import HomepageContainer from './components/homepage/HomepageContainer';
@@ -25,7 +27,10 @@ function App() {
   const { banners, fetchingBanners } = useFeaturedBanners();
   const { categories, fetchingCategories } = useFeaturedCategories();
   const { products, fetchingProducts } = useFeaturedProducts();
+  const { allProducts, fetchingAllProducts } = useAllProducts();
+  console.log(allProducts, fetchingAllProducts);
   const [cartItems, setCartItems] = useState([]);
+
   return (
     <Router>
       <stateContext.Provider
@@ -36,6 +41,8 @@ function App() {
           fetchingCategories,
           products,
           fetchingProducts,
+          allProducts,
+          fetchingAllProducts,
 
           cartItems,
           setCartItems,
@@ -50,6 +57,8 @@ function App() {
           <Route path='/search' element={<SearchResultsContainer />} />
           <Route path='/cart' element={<CartContainer />} />
           <Route path='/checkout' element={<CheckoutContainer />} />
+          <Route path="*" element={<Navigate to="/" replace />}
+          />
         </Routes>
       </stateContext.Provider>
       <Footer />

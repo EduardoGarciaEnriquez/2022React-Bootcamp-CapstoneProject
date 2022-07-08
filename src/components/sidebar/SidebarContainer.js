@@ -1,32 +1,55 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai'
 import stateContext from '../../state/stateContext';
 
 import './Sidebar.scss';
 
 function SidebarContainer({ isVisible, showHideSidebar, filterProducts }) {
+    let navigate = useNavigate();
     const { categories, fetchingCategories } = useContext(stateContext)
     const [categoryArray, setCategoryArray] = useState([])
+
     var size = Object.keys(categories).length;
+
+    //url params
+    const { search } = useLocation();
+    const searchParams = new URLSearchParams(search);
+    const category = searchParams.get("category");
 
     useEffect(() => {
         if (size !== 0) {
-            let array = categories.results;
-            array.forEach(element => {
-                element.active = false;
-            });
-            setCategoryArray(array)
+            if (categoryArray.length === 0) {
+                let array = categories.results;
+                array.forEach(element => {
+                    element.slugs[0] === category ?
+                        element.active = true :
+                        element.active = false
+                });
+                setCategoryArray(array)
+            }
+            else {
+                let array = categoryArray;
+                setCategoryArray(array)
+            }
         }
-    }, [size, categoryArray])
+    }, [size, categoryArray, category, categories.results])
 
-    const handleOnClick = (category) => {
+
+
+    const handleOnClick = (categoryItem) => {
         let array = categoryArray;
         let index = array.findIndex(item => {
-            return item.slugs[0] === category.slugs[0]
+            return item.slugs[0] === categoryItem.slugs[0]
         })
+        if (category === array[index].slugs[0]) {
+            navigate("/products");
+        }
+
         array[index].active = !array[index].active;
+
         setCategoryArray(array);
-        filterProducts(category.slugs[0]);
+        filterProducts(categoryItem.slugs[0]);
         showHideSidebar();
     }
 
@@ -36,6 +59,7 @@ function SidebarContainer({ isVisible, showHideSidebar, filterProducts }) {
             element.active = false;
         });
         setCategoryArray(array);
+        filterProducts();
         showHideSidebar();
     }
 
@@ -57,9 +81,13 @@ function SidebarContainer({ isVisible, showHideSidebar, filterProducts }) {
                         </button>
                     )}
                     {(categoryArray.filter(item => item.active === true).length !== 0) &&
-                        <button onClick={clearFilters} className='not-active'>
-                            Clear Filters
-                        </button>
+                        <Link to="/products" style={{ textDecoration: 'none' }}>
+                            <button
+                                onClick={clearFilters}
+                                className='not-active'>
+                                Clear Filters
+                            </button>
+                        </Link>
                     }
                 </div> :
                 <div className="sidebar-content">

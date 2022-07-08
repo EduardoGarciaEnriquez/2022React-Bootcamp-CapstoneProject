@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 
 function PaginationContainer({ page, setPage, totalPages }) {
-    const [input, setInput] = useState(1);
+    const [input, setInput] = useState(page);
     useEffect(() => {
         setInput(input);
-    }, [page])
+    }, [page, input])
 
 
     const prevPage = () => {
@@ -37,6 +37,8 @@ function PaginationContainer({ page, setPage, totalPages }) {
                 <div className="pagination-content">
                     <button onClick={prevPage}>&laquo;</button>
                     <input
+                        min={1}
+                        max={totalPages}
                         type="number"
                         autoComplete='off'
                         name='current'

@@ -9,6 +9,7 @@ export function useSearchProduct(searchTerm) {
         fetchingSearchProduct: true,
     }));
 
+
     useEffect(() => {
         if (!apiRef || isApiMetadataLoading) {
             return () => { };
@@ -48,7 +49,7 @@ export function useSearchProduct(searchTerm) {
         return () => {
             controller.abort();
         };
-    }, [apiRef, isApiMetadataLoading]);
+    }, [apiRef, isApiMetadataLoading, searchTerm]);
 
     return searchProduct;
 }

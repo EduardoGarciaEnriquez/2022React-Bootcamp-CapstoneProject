@@ -15,7 +15,7 @@ function Header() {
         var inputValue = document.getElementById("search").value;
         navigate("/search?q=" + inputValue);
     }
-    
+
     return (
         <header className='header-container'>
             <div className='logo-container'>

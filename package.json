@@ -42,12 +42,6 @@
           "objects": "always-multiline"
         }
       ],
-      "max-len": [
-        "error",
-        {
-          "code": 100
-        }
-      ],
       "eqeqeq": [
         "error",
         "always",
@@ -88,5 +82,5 @@
   "devDependencies": {
     "gh-pages": "^4.0.0"
   },
-  "homepage": "https://EduardoGarciaEnriquez.github.io/2022React-Bootcamp-CapstoneProject"
+  "homepage": "https://EduardoGarciaEnriquez.github.io/2022React-Bootcamp-CapstoneProject/"
 }
